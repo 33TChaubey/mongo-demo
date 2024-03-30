@@ -6,12 +6,22 @@ mongoose.connect('mongodb://localhost/playground')
 
 
 const courseSchema = new mongoose.Schema({
-    name: {type: String, required: true},
+    name: {type: String, required: true, minlength: 5, maxlength: 255},
+    category:{
+        type: String,
+        required: true,
+        enum:['web', 'mobile', 'network']
+    },
     author: String,
     tags: [ String ],
     date : {type: Date, default: Date.now},
     isPublished: Boolean,
-    price: Number
+    price: {
+        type: Number,
+        required: function(){
+            return this.isPublished;
+        }
+    }
 });
 
 
@@ -20,7 +30,8 @@ const Course = mongoose.model('Course', courseSchema);
 
 async function createCourse(){
     const course = new Course({
-        // name: "Angular course",
+        name: "Angular Course",
+        category: "-",
         author: "Mosh",
         tags: ['Angular', 'frontend'],
         isPublished: true,
