@@ -15,7 +15,7 @@ const courseSchema = new mongoose.Schema({
 });
 
 
-const Course = mongoose.model('Course',courseSchema);
+const Course = mongoose.model('Course', courseSchema);
 
 
 async function createCourse(){
@@ -26,10 +26,17 @@ async function createCourse(){
         isPublished: true,
         price: 15
     });
+
+    try{
+        const result = await course.save();
+        console.log(result);
+    }   
+    catch(err){
+        console.log(err.message);
+    }
     
     
-    const result = await course.save();
-    console.log(result);
+    
 }
 
 async function getCourse(){
