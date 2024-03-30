@@ -6,11 +6,12 @@ mongoose.connect('mongodb://localhost/playground')
 
 
 const courseSchema = new mongoose.Schema({
-    name: String,
+    name: {type: String, required: true},
     author: String,
     tags: [ String ],
     date : {type: Date, default: Date.now},
-    isPublished: Boolean
+    isPublished: Boolean,
+    price: Number
 });
 
 
@@ -19,10 +20,11 @@ const Course = mongoose.model('Course',courseSchema);
 
 async function createCourse(){
     const course = new Course({
-        name: "Angular course",
+        // name: "Angular course",
         author: "Mosh",
         tags: ['Angular', 'frontend'],
-        isPublished: true
+        isPublished: true,
+        price: 15
     });
     
     
@@ -42,4 +44,4 @@ async function getCourse(){
         .select({ name: 1, tags: 1 })
     console.log(courses);
 }
-getCourse();
+createCourse();
